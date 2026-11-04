@@ -1445,7 +1445,7 @@ svg {
 }
 @keyframes question-in {
   from {
-    opacity: 0;
+    opacity: 1;
     transform: translateY(7px);
   }
   to {
@@ -2399,5 +2399,236 @@ svg {
   .reaction-meme {
     width: 62px;
     height: 72px;
+  }
+}
+
+/* Deutsche Texte und die bereitgestellten Soft-Hands-Fotos. */
+.hero-soft-sticker {
+  position: absolute;
+  right: -15px;
+  bottom: 40px;
+  width: 126px;
+  margin: 0;
+  padding: 7px;
+  background: #f3eddf;
+  color: #141413;
+  border: 1px solid #a6a092;
+  transform: rotate(-9deg);
+  box-shadow: 3px 5px 0 #0005;
+  z-index: 2;
+}
+.hero-soft-sticker img {
+  display: block;
+  width: 100%;
+  height: 115px;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+.hero-soft-sticker figcaption {
+  padding-top: 7px;
+  text-align: center;
+  font:
+    8px/1.45 'Courier New',
+    monospace;
+}
+.foreman-caption {
+  padding-right: 120px;
+}
+.foreman-caption strong {
+  font-size: 27px;
+}
+.hero .eyebrow {
+  letter-spacing: 1px;
+}
+.sidebar-soft-meme {
+  margin: 24px 0 0;
+  border: 1px solid #645335;
+  background: #29241c;
+}
+.sidebar-soft-meme img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.sidebar-soft-meme figcaption {
+  padding: 12px;
+}
+.sidebar-soft-meme .eyebrow {
+  font-size: 8px;
+  letter-spacing: 0.3px;
+}
+.sidebar-soft-meme p {
+  color: #e8dfc6;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 7px;
+}
+.question-kicker .eyebrow {
+  overflow-wrap: anywhere;
+}
+.quiz-topline > .eyebrow {
+  letter-spacing: 0.7px;
+}
+.reaction-meme {
+  width: 84px;
+  height: 96px;
+}
+.reaction-slot {
+  min-height: 130px;
+}
+.reaction-soft.reaction-late .reaction-meme {
+  width: 105px;
+  height: 120px;
+  border-color: var(--yellow);
+}
+.reaction-soft.reaction-late p {
+  border-left-color: var(--orange);
+}
+.result-meme {
+  margin: 0 0 26px;
+}
+.result-meme-prominent {
+  display: block;
+  border-color: color-mix(in srgb, var(--rank-color) 45%, #363630);
+}
+.result-meme-prominent > img {
+  width: 100%;
+  height: 270px;
+}
+.result-meme-prominent figcaption {
+  padding: 17px 20px;
+}
+.result-meme-prominent p {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+.rank-preview-card {
+  display: flex;
+  flex-direction: column;
+}
+.rank-preview h3 {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.rank-preview p {
+  flex: 1;
+}
+.rank-ticks {
+  padding-top: 18px;
+  margin-top: auto;
+}
+.question-section h1 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.calculation-status {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.meme-report h3 {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.meme-source-details p {
+  padding-top: 6px;
+}
+@media (max-width: 1100px) {
+  .hero .eyebrow {
+    letter-spacing: 0.4px;
+  }
+  .foreman-caption strong {
+    font-size: 23px;
+  }
+  .hero-soft-sticker {
+    width: 113px;
+  }
+  .hero-soft-sticker img {
+    height: 100px;
+  }
+}
+@media (max-width: 760px) {
+  .hero-soft-sticker {
+    right: -8px;
+    bottom: 38px;
+    width: 116px;
+  }
+  .hero-soft-sticker img {
+    height: 107px;
+  }
+  .foreman-caption {
+    padding-right: 110px;
+  }
+  .foreman-caption .eyebrow {
+    font-size: 7px;
+  }
+  .foreman-caption strong {
+    font-size: 25px;
+  }
+  .hero-meta {
+    font-size: 8px;
+    gap: 12px;
+  }
+  .result-meme-prominent > img {
+    height: 260px;
+  }
+  .result-meme-prominent p {
+    font-size: 17px;
+  }
+  .reaction-meme {
+    width: 76px;
+    height: 90px;
+  }
+  .reaction-soft.reaction-late .reaction-meme {
+    width: 88px;
+    height: 106px;
+  }
+  .quiz-topline > .eyebrow {
+    font-size: 8px;
+  }
+  .quiz-topline > .mono {
+    font-size: 8px;
+  }
+  .reaction-slot p {
+    font-size: 12px;
+  }
+  .calculating-page h1 {
+    font-size: 57px;
+  }
+}
+@media (max-width: 370px) {
+  .hero .eyebrow {
+    font-size: 8px;
+    letter-spacing: 0;
+  }
+  .hero-meta {
+    font-size: 7px;
+    gap: 10px;
+  }
+  .quiz-topline {
+    gap: 8px;
+  }
+  .quiz-topline > .eyebrow {
+    font-size: 7px;
+    letter-spacing: 0.1px;
+  }
+  .quiz-topline > .mono {
+    font-size: 7px;
+  }
+  .reaction-slot {
+    min-height: 145px;
+  }
+}
+
+.reaction-intense .reaction-meme {
+  width: 96px;
+  height: 110px;
+  border-color: var(--yellow);
+}
+@media (max-width: 760px) {
+  .reaction-intense .reaction-meme {
+    width: 88px;
+    height: 106px;
   }
 }

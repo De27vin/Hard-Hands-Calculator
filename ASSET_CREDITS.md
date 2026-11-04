@@ -9,3 +9,9 @@ The three fan-made Blue Collar SpongeBob meme images below were selected by requ
 | `src/assets/memes/jobsite.jpeg`      | [SpongeBob On the Job Site](https://knowyourmeme.com/photos/3141021-blue-collar-spongebob)           | https://i.kym-cdn.com/photos/images/newsfeed/003/141/021/b2e.jpeg |
 
 Retrieved 2026-11-04. Original pixel data is preserved; page layouts crop the images with CSS. Total bundled JPEG size is approximately 200 KB. Sources are also linked from the landing page. Result images are chosen deterministically from the final score, and quiz reactions reuse the same local assets. Share PNGs include a subdued image background and retain a text-only fallback if image decoding fails.
+
+## Bereitgestellte Soft-Hands-Fotos
+
+Vier optimierte WebP-Kopien stammen ausschließlich aus der vom Nutzer bereitgestellten Sammlung `~/Downloads/cp cyril/`. Alle sieben JPEGs wurden geprüft; vier unterschiedliche Motive wurden ausgewählt. Dateinamen, Original-Prüfsummen und Verarbeitung stehen in [docs/soft-hands-assets.json](docs/soft-hands-assets.json). Die Originale wurden nicht verändert. Es wurden keine weiteren Fotos heruntergeladen oder generiert.
+
+Die Bilder liegen unter `public/images/soft-hands/`, sind jeweils 599×800 Pixel groß und benötigen zusammen 114.572 Bytes. Sie werden zur lokalen Vorschau, als Reaktionen, im Ergebnis und im PNG-Hintergrund eingesetzt. Diese Überarbeitung wurde nicht veröffentlicht.

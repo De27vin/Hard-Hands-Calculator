@@ -1,38 +1,30 @@
 # Hard Hands Calculator
 
-**You've got soooft hands sissy boy**
+**Bruder, sooo weiche Hände?**
 
-A completely unscientific, fully client-side meme quiz. Answer 30 questions, get a deterministic hardness score from 0–1000, receive one of eight ridiculous ranks, and send an industrial-styled PNG certificate to the group chat.
+Ein deutscher, satirischer Härtecheck mit 20 Fragen, sechs Bereichen, acht Rängen und 0–1000 Punkten. Antwortreihenfolgen werden pro Durchlauf einmal gemischt. Weiche Antworten lösen häufiger die bereitgestellten Soft-Hands-Fotos und zunehmend freche Kommentare aus. Bei harten Ergebnissen bleiben die vorhandenen Blue-Collar-SpongeBob-Motive im Einsatz.
 
-All professions deserve respect. This is satire, not a health, safety, or biometric assessment. Appropriate PPE, injury prevention, skincare, rest, and stopping for dangerous weather are explicitly respected in the content and scoring.
+Die deutsche Fassung liegt auf `feat/deutsche-meme-ueberarbeitung`. Pushes auf diesen Entwicklungsbranch führen die Validierung aus; GitHub Pages verwendet weiterhin die bisher veröffentlichte Fassung.
 
-## Stack
+## Lokal starten
 
-React 19, TypeScript, Vite, Lucide icons, and custom responsive CSS. Barlow Condensed and DM Sans are bundled locally through Fontsource; no Google Fonts requests. CSS and inline SVG supply the industrial decoration. Three locally bundled Blue Collar SpongeBob meme images appear on the landing page, contextual reactions, results, and share-card backgrounds; see [ASSET_CREDITS.md](ASSET_CREDITS.md) for their sources. Native Canvas generates share cards without screenshot libraries or external APIs.
-
-No backend, database, authentication, API keys, analytics, or paid services. Answers remain in React memory and disappear on refresh or restart. No data is sent anywhere by the app; using the native share sheet sends only the certificate and result text to the destination you select.
-
-## Run locally
-
-Use Node **22.12+** (Node 24 also works) and npm.
+Node **22.12+** oder Node 24 sowie npm verwenden:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the Local URL Vite prints (normally `http://localhost:5173`).
+Vite zeigt die lokale URL an, normalerweise `http://localhost:5173`.
 
 ```sh
-npm run test        # unit and UI tests
-npm run test:watch  # interactive test runner
-npm run build      # strict TypeScript check + optimized static build
-npm run preview    # serve dist locally
+npm test             # Logik-, Komponenten- und Bildlade-Tests
+npm run test:watch   # Tests bei Änderungen wiederholen
+npm run build       # TypeScript-Prüfung und statischer Produktionsbuild
+npm run preview     # dist lokal bereitstellen
 ```
 
-The complete quiz works without network access once loaded. This is not a service-worker PWA: a first visit or page refresh still requires the static files to be available.
-
-## Browser tests
+Für die vorhandenen Browserprüfungen:
 
 ```sh
 npx playwright install chromium
@@ -40,84 +32,93 @@ npm run build
 npm run test:e2e
 ```
 
-Playwright serves the production build itself on port 4173. Desktop and mobile Chromium tests cover all 30 questions, changing and preserving answers, deterministic results, restart, keyboard controls, reduced motion, 320px overflow checks, offline quiz completion, automated axe accessibility checks, and actual PNG signature/dimensions. Screenshots and downloaded cards go to ignored `test-results/`.
+Ein bereits installiertes Chromium lässt sich mit `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/absoluter/pfad/zu/chrome` angeben. Die Tests starten den lokalen Produktionsserver selbst. Screenshots und echte exportierte PNGs liegen im ignorierten Ordner `test-results/`.
 
-If Chromium is already installed outside Playwright’s default location:
+## Technik und Struktur
 
-```sh
-PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/absolute/path/to/chrome npm run test:e2e
-```
-
-Native sharing is device/browser dependent and usually needs HTTPS. Unit tests cover successful native sharing, cancellation, unavailable file sharing, and rejected share targets. Download PNG remains available independently. Physical-device share-sheet behavior should be checked on target devices before a broad release.
-
-## Static deployment
-
-Build command: `npm run build`. Output directory: `dist`. No server functions or environment variables are required. `base: './'` in `vite.config.ts` supports both a domain root and a GitHub Pages repository subdirectory. The app uses in-memory views and does not need SPA route rewrites.
-
-- **Cloudflare Pages:** connect the repository, use the build command and output directory above, and set Node to 22.12+ or 24 in the build environment.
-- **Vercel:** import the repository, select the Vite framework preset, and use the same build command/output. Select a supported Node version meeting the requirement.
-- **GitHub Pages:** run `npm run deploy:pages` from a checkout with Git push access. This builds the app and publishes only `dist` plus `.nojekyll` to the `gh-pages` branch, preserving its history. The relative asset base works at `/Hard-Hands-Calculator/`. GitHub Pages serves the root of `gh-pages`; if Pages is disabled, select **Settings → Pages → Deploy from a branch → gh-pages → /(root)** once.
-- **Any static host:** upload the contents of `dist` and serve `index.html`. Use HTTPS for the best native sharing support. Serve bundled assets alongside the HTML.
-
-The repository includes a validation-only CI workflow. To publish a new version, commit and push your source, then run `npm run deploy:pages`. GitHub deploys pushes to the publishing branch. The publish script uses a temporary checkout and leaves the source checkout unchanged.
-
-Published site: https://de27vin.github.io/Hard-Hands-Calculator/
-
-## Editing the quiz
+React 19, TypeScript, Vite, Lucide und das bestehende industrielle CSS-Design. Kein Backend, keine Datenbank, keine Konten, keine Analyse-Dienste und keine API-Schlüssel. Schriften und Bilder werden vom selben statischen Host geladen.
 
 ```text
 src/
-  components/     Header/footer, hand artwork, share dialog
+  components/       Rahmen, Rang-Symbole, Teilen-Dialog
   data/
-    questions.ts Categories, 30 questions, answer labels and points
-    ranks.ts     Rank boundaries, descriptions, color, and personality
-    reactions.ts Sparse live reactions and personalized commentary rules
+    questions.ts    Deutsche Fragen, stabile IDs, Antworten, Rohpunkte, Bereiche
+    ranks.ts        Acht deutsche Ränge mit unveränderten Grenzen
+    memes.ts        Lokale Bilder und rangabhängige Ergebnis-Motive
+    reactions.ts    Sprüche, Auswahlregeln und persönliche Anmerkungen
   lib/
-    quiz.ts      Pure navigation/state reducer
-    scoring.ts   Pure scoring and completeness checks
-    sharing.ts   Canvas PNG, native share, download fallback
-  pages/         Landing, Quiz, Calculating, Results
-  styles/        Responsive design and reduced-motion support
-  types.ts       Shared TypeScript contracts
-tests/           Data, scoring, state, reactions, sharing, and UI tests
-e2e/             Production-browser tests
+    quiz.ts         Reiner Zustands-Reducer
+    shuffle.ts      Fisher–Yates und Start eines Quiz-Durchlaufs
+    scoring.ts      Endergebnis, laufende Härte und fünf Reaktionsbänder
+    sharing.ts      Bildladen, Canvas-PNG, natives Teilen und Download-Fallback
+  pages/            Startseite, Quiz, Auswertung, Ergebnis
+public/images/soft-hands/  Vier optimierte Kopien bereitgestellter Fotos
+docs/               Fragen-Review und Bildinventar
+tests/              Automatisierte Logik- und UI-Prüfungen
+e2e/                Browserprüfungen inklusive echter PNG-Downloads
 ```
 
-Edit question wording, asides, and options in `src/data/questions.ts`. The `q()` helper assigns stable `q1`–`q30` question IDs and `a0`–`a4` answer IDs. Reordering options requires updating reaction/commentary rules that refer to those IDs. Keep exactly five questions per category and three to five options per question. Each question must include a minimum of 0 and maximum of 4 points.
+## Fragen und Bewertung bearbeiten
 
-### Scoring
-
-Every question contributes 0–4 raw points. Each five-question category has a 20-point maximum. The whole quiz has a 120-point maximum:
+Fragen und Antworten stehen in `src/data/questions.ts`. Die 14 beibehaltenen Fragen behalten ihre IDs und Antwort-Punkt-Zuordnungen. Sechs neue Fragen ergänzen konkrete Handgriffe und praktische Freizeitaktivitäten. Entfernte IDs werden nicht neu vergeben. Bei Antwortänderungen auch die Regeln in `reactions.ts` prüfen.
 
 ```text
-total = round(sum(answer points) / 120 × 1000)
-category percent = round(category points / 20 × 100)
+Endergebnis = runden(Summe aller Antwortpunkte / 80 × 1000)
+Bereichsanteil = runden(Bereichspunkte / Bereichsmaximum × 100)
+Laufende Härte = runden(Punkte gültiger vorhandener Antworten / deren Maximum × 1000)
 ```
 
-The implementation derives maxima from the data, rejects unknown answer IDs by treating them as zero, and clamps the result to 0–1000. The UI/reducer only permits completing the quiz after all 30 answers are valid. Category percentages are rounded independently, while the final score is rounded once from raw points. No question carries extra weight; each category supplies one sixth of the possible total.
+Jede Frage gibt 0–4 Rohpunkte und trägt maximal 50 normalisierte Punkte bei. Körperlicher Einsatz und Hände & Handwerk haben jeweils vier Fragen, die übrigen Bereiche jeweils drei. Der Endwert wird einmal aus Rohpunkten gerundet. Bereichsprozente werden unabhängig berechnet und nicht einfach addiert.
 
-Change point values in `questions.ts` and the pure calculation in `src/lib/scoring.ts` if requirements change. Update the balanced-range tests and the on-screen math explanation too. Keep real safety decisions neutral: for example, both outdoor weather-safety answers receive full points, and daily versus as-needed cream use for working hands receives the same points.
+Unbeantwortete Fragen werden bei der laufenden Härte vollständig ausgelassen. Vor der ersten gültigen Antwort gibt es keinen Zwischenwert (`null`). Reine Selbsteinschätzung, Verletzungen, Handcreme und Pausendauer werden nicht mehr bewertet. Schutz, Erholung und sichere Arbeitsstopps verursachen keinen Abzug.
 
-### Ranks and reactions
+Alle acht Grenzen bleiben erhalten: 0–99, 100–249, 250–399, 400–549, 550–699, 700–849, 850–949 und 950–1000. Jeder Rang ist weiterhin erreichbar. Ränge in `src/data/ranks.ts` bearbeiten; bei neuen Rängen die lückenlose Abdeckung, Bildzuordnung und Tests aktualisieren. Das vollständige Fragen-Review steht in [docs/UEBERARBEITUNG.md](docs/UEBERARBEITUNG.md).
 
-Edit or add ranks in `src/data/ranks.ts`. Ranges must cover every integer from 0 through 1000 with no overlaps. Each rank has its own emoji, description, tagline, accent color, and visual level. Update the eight-rank test and landing copy if deliberately changing the required number of ranks.
+## Stabile Antwortmischung
 
-Reactions are intentionally available on only eight questions and appear at most once per eligible question in a quiz run. They use a reserved inline area, never block navigation, and are announced politely to screen readers. Personalized result notes use deterministic answer rules in `reactions.ts`.
+`createQuizSession()` läuft nur beim Start-Klick. Fisher–Yates mischt eine Kopie der Antwort-IDs unabhängig für jede Frage. Reihenfolgen und ein Lauf-Seed werden im Quiz-Zustand gespeichert. Der Reducer enthält keine Zufallsaufrufe. Auswahl, Zurückgehen, React-Rerenders und Strict Mode ändern die Reihenfolge nicht. Ein neuer Durchlauf erzeugt neue Reihenfolgen. Die Bewertung verwendet stets Antwort-IDs, niemals die sichtbaren Buchstaben A–E oder deren Positionen.
 
-### Accessibility and motion
+## Fotos und Meme-Reaktionen
 
-Semantic headings, labelled radio groups, native radio keyboard behavior, focus rings, a skip link, question focus management, live progress/reactions, a native modal dialog with focus restoration, and reduced-motion CSS are included. The fictional calculation interlude is shortened under reduced motion. All functionality remains usable without animations.
+Der tatsächliche Quellordner war `~/Downloads/cp cyril/`. Alle sieben JPEGs wurden geprüft. Vier Motive wurden übernommen: Getränketisch, ausgestreckte Hand, grinsendes Porträt und Sofa mit Smartphone. Schwarze Screenshot-Ränder wurden aus Kopien entfernt; Foto-Seitenverhältnis und Originaldateien bleiben erhalten. Die WebP-Kopien haben jeweils 599×800 Pixel, keine Metadaten und benötigen zusammen **114.572 Bytes**. Dateinamen und Original-Prüfsummen stehen in [docs/soft-hands-assets.json](docs/soft-hands-assets.json) und [ASSET_CREDITS.md](ASSET_CREDITS.md).
 
-### Sharing
+Die fünf Reaktionsbänder sind unabhängig von den acht Ergebnisrängen:
 
-The share dialog builds a 1200×1200 PNG using local bundled fonts and Canvas. It previews the actual image. Share Card uses `navigator.canShare`/`navigator.share` for files when supported, falls back to downloading on unsupported/rejected targets, and respects user cancellation. Download PNG always works independently on browsers with Canvas export. A failed image export displays a readable error. No personal information is included. Meme backgrounds use the same locally bundled images as the UI, so Canvas export needs no third-party image requests or CORS permission. Image-decode failures fall back to the readable text certificate. Shared score URLs are intentionally omitted.
+| Laufende Härte | Verhalten |
+| --- | --- |
+| 0–250 | Höchste Foto-Chance, größere weiche Reaktionsbilder |
+| 251–450 | Häufiger weicher Spott, etwas zurückhaltender |
+| 451–650 | Weiche Einzelantworten werden gelegentlich kommentiert |
+| 651–800 | Weiche Foto-Reaktionen sind selten |
+| 801–1000 | Weiche Fotos sind sehr selten; harte Antworten können SpongeBob auslösen |
 
-## Limitations
+Eine Antwort mit 0 Rohpunkten hat im weichsten Band 85 % deterministische Eignung, bei 1 Rohpunkt sind es 60 %. Höhere laufende Härte verringert die Eignung. Durchschnittliche Antworten kommen nur selten infrage. Harte Antworten erzeugen niemals ein Soft-Hands-Foto. Ein Hash aus Lauf-Seed, Frage und Antwort ergibt eine feste Entscheidung innerhalb des Laufs und kontrollierte Bildvielfalt.
 
-- The joke measures answers, not strength, identity, occupational worth, or actual hand condition.
-- Refreshing clears progress; there is no persistent tracking or account.
-- Native share targets depend on the browser and device. Desktop browsers commonly use the PNG fallback.
-- Browser automation targets Chromium at desktop/mobile viewport sizes; it does not replace physical iOS/Android checks or a manual screen-reader review.
-- Social previews include title/description metadata; a deployed absolute Open Graph image URL can be added after a hosting domain is selected.
+Zwischen zwei Reaktionen liegen mindestens drei beantwortete Fragen; jede Frage reagiert höchstens einmal. Maximal sieben Reaktionen sind möglich. Rerenders lösen keine Reaktionen aus. Der Spott steigert sich mit tatsächlich vorhandenen Antworten: früh unter sechs, mittig sechs bis dreizehn, spät ab vierzehn. Bei einer harten Antwort nach früheren weichen Antworten erscheint kein irreführendes Soft-Hands-Foto.
 
-Font licenses are supplied in the installed Fontsource packages and bundled under `public/licenses`. Meme image sources are documented in [ASSET_CREDITS.md](ASSET_CREDITS.md). Images and fonts are served with the app; there are no third-party asset requests at runtime.
+Die Startseite kombiniert beide Meme-Seiten. Das Quiz bietet gelegentliche Reaktionen und ab vier dauerhaft weichen Antworten eine zusätzliche Desktop-Randnotiz. Auf der Ergebnisseite erhalten die unteren Ränge größere Fotos, höhere Ränge die drei erhaltenen Industriemotive. PNG-Karten verwenden dieselbe rangabhängige Bildwahl und eine persönliche Anmerkung aus tatsächlichen Antworten.
+
+Die kleinen Bilder werden beim Einstieg vorgeladen, damit spätere Reaktionen nach dem Laden auch ohne Netz funktionieren. Der erste Besuch oder ein Neuladen benötigt weiterhin die statischen Dateien; es gibt keinen Service Worker.
+
+## Teilen und Barrierefreiheit
+
+Die 1200×1200-PNG entsteht clientseitig mit Canvas. Schrift und Bild werden vor dem Zeichnen geladen. Ein Bildladefehler fällt auf ein lesbares Text-Zertifikat zurück; ein Exportfehler erscheint auf Deutsch im Dialog. Dateibasiertes natives Teilen wird verwendet, wenn verfügbar. Abbruch wird respektiert; nicht unterstützte oder fehlerhafte Ziele führen zum Download. Auf vielen Geräten ist HTTPS für natives Teilen nötig.
+
+Semantische Überschriften, beschriftete Radiogruppen, native Tastaturbedienung, sichtbare Fokusringe, Fokuswechsel zu neuen Fragen, Bildbeschreibungen, höfliche Live-Meldungen und ein modaler Dialog mit Fokusrückgabe bleiben erhalten. Reduzierte Bewegung entfernt Animationen und verkürzt die fiktive Berechnung. Texte bleiben auch während Übergängen kontrastreich lesbar.
+
+## Statisches Hosting
+
+Build: `npm run build`. Ausgabe: `dist`. `base: './'` unterstützt eine Domainwurzel und `/Hard-Hands-Calculator/`. Es gibt keine serverseitigen Routen oder nötigen Umgebungsvariablen.
+
+- Cloudflare Pages: Build `npm run build`, Ausgabe `dist`, Node 22.12+ oder 24.
+- Vercel: Vite-Vorlage mit denselben Build-Einstellungen.
+- GitHub Pages: Der bestehende Befehl `npm run deploy:pages` baut und pusht die Ausgabe auf `gh-pages`. Nur nach ausdrücklicher Veröffentlichungserlaubnis ausführen. Die Überarbeitung wurde nicht auf GitHub Pages veröffentlicht.
+- Andere statische Hosts: Inhalt von `dist` einschließlich `assets/` und `images/` bereitstellen.
+
+## Grenzen
+
+- Antworten bleiben im React-Speicher und verschwinden bei Neustart oder Neuladen.
+- Die Punktzahl bleibt Satire; der Zufall beeinflusst nur Reihenfolge und Reaktionsauswahl.
+- Natives Teilen hängt vom Gerät ab. PNG-Download bleibt verfügbar.
+- Chromium-Automation ersetzt keinen manuellen iOS-/Android- oder Screenreader-Test.
+- Die Live-Website bleibt bis zu einer ausdrücklichen Freigabe auf dem bisherigen Stand.

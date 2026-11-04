@@ -2,17 +2,20 @@ import { useEffect, useState } from 'react';
 import { Fingerprint } from 'lucide-react';
 
 const messages = [
-  'ANALYZING HAND TOUGHNESS…',
-  'MEASURING FICTIONAL CALLOUS DENSITY…',
-  'CHECKING FOR OFFICE WORKER DNA…',
-  'CALCULATING FINAL HARDNESS…',
+  'FIKTIVE HORNHAUTDICHTE WIRD GEMESSEN …',
+  'MAUSARM WIRD VON ARBEIT UNTERSCHIEDEN …',
+  'AUSREDEN WERDEN ENTFERNT …',
+  'DIE KOMMISSION FORMULIERT DEN SPRUCH …',
 ];
 
 export function Calculating({ onComplete }: { onComplete: () => void }) {
   const [step, setStep] = useState(0);
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const interval = setInterval(() => setStep((s) => Math.min(3, s + 1)), 650);
+    const interval = setInterval(
+      () => setStep((value) => Math.min(messages.length - 1, value + 1)),
+      650,
+    );
     const timeout = setTimeout(onComplete, reduced ? 150 : 2700);
     return () => {
       clearInterval(interval);
@@ -24,11 +27,11 @@ export function Calculating({ onComplete }: { onComplete: () => void }) {
       <div className="calculator-spinner">
         <Fingerprint aria-hidden="true" size={100} strokeWidth={1} />
       </div>
-      <span className="eyebrow orange">THE COMMITTEE IS DELIBERATING</span>
+      <span className="eyebrow orange">DIE KOMMISSION MUSS KURZ LACHEN</span>
       <h1 tabIndex={-1}>
-        PLEASE HOLD.
+        KURZ WARTEN.
         <br />
-        LOOK <span className="orange">TOUGH.</span>
+        HART <span className="orange">GUCKEN.</span>
       </h1>
       <div className="calculation-status" role="status" aria-live="polite">
         {messages[step]}
@@ -36,7 +39,7 @@ export function Calculating({ onComplete }: { onComplete: () => void }) {
       <div className="calculation-track">
         <span style={{ width: `${(step + 1) * 25}%` }} />
       </div>
-      <p>Fictional analysis. Real arithmetic. Absolutely no biometric science.</p>
+      <p>Erfundene Analyse. Echte Addition. Keine biometrische Messung.</p>
     </main>
   );
 }

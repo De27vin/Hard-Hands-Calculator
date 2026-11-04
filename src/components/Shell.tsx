@@ -13,10 +13,10 @@ export function Shell({
   return (
     <>
       <a className="skip-link" href="#main">
-        Skip to content
+        Zum Inhalt springen
       </a>
       <header className="site-header container">
-        <button className="brand" onClick={onHome} title="Return to home">
+        <button className="brand" onClick={onHome} title="Zur Startseite">
           <span className="brand-icon">
             <HardHat aria-hidden="true" size={25} strokeWidth={2.5} />
           </span>
@@ -25,19 +25,19 @@ export function Shell({
           </span>
         </button>
         <div className="header-status">
-          <span className="status-dot" /> UNREASONABLY SERIOUS ABOUT A JOKE
+          <span className="status-dot" /> UNANGEMESSEN ERNST FÜR EINEN WITZ
         </div>
         <a className="header-link" href={isLanding ? '#ranks' : '#main'}>
-          {isLanding ? 'THE RANKS' : 'THE INSPECTION'} <ArrowUpRight aria-hidden="true" size={15} />
+          {isLanding ? 'DIE RÄNGE' : 'DIE PRÜFUNG'} <ArrowUpRight aria-hidden="true" size={15} />
         </a>
       </header>
       {children}
       <footer className="site-footer container">
         <span>
-          HARD HANDS CALCULATOR <span className="muted">/ EST. FOR THE BANTER</span>
+          HARD HANDS CALCULATOR <span className="muted">/ ABTEILUNG GROSSE KLAPPE</span>
         </span>
-        <span>100% satire. 0% scientific accuracy.</span>
-        <span className="footer-note">All work deserves respect. Even yours.</span>
+        <span>100 % Satire. 0 % wissenschaftlich.</span>
+        <span className="footer-note">Jede Arbeit verdient Respekt. Deine auch.</span>
       </footer>
     </>
   );

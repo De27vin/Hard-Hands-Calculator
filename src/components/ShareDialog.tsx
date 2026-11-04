@@ -7,10 +7,12 @@ export function ShareDialog({
   score,
   rank,
   onClose,
+  commentary = '',
 }: {
   score: number;
   rank: Rank;
   onClose: () => void;
+  commentary?: string;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [card, setCard] = useState<{ blob: Blob; url: string }>();
@@ -25,7 +27,7 @@ export function ShareDialog({
     element?.showModal();
     let disposed = false;
     let url: string;
-    createShareCard(score, rank)
+    createShareCard(score, rank, commentary)
       .then((blob) => {
         if (disposed) return;
         url = URL.createObjectURL(blob);
@@ -34,7 +36,9 @@ export function ShareDialog({
       .catch((e) => {
         if (!disposed)
           setError(
-            e instanceof Error ? e.message : 'Could not create your card. Please try again.',
+            e instanceof Error
+              ? e.message
+              : 'Die Karte konnte nicht erstellt werden. Bitte versuche es erneut.',
           );
       });
     return () => {
@@ -43,7 +47,7 @@ export function ShareDialog({
       element?.close();
       if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
     };
-  }, [score, rank]);
+  }, [score, rank, commentary]);
 
   const share = async () => {
     if (!card) return;
@@ -53,13 +57,13 @@ export function ShareDialog({
       const result = await shareCard(card.blob, score, rank);
       setStatus(
         result === 'downloaded'
-          ? 'PNG downloaded. Drop it into the group chat.'
+          ? 'PNG gespeichert. Ab damit in den Gruppenchat.'
           : result === 'shared'
-            ? 'Certificate dispatched. Prepare for the replies.'
-            : 'Sharing cancelled. Your card is still ready.',
+            ? 'Zertifikat verschickt. Die Antworten werden persönlich.'
+            : 'Teilen abgebrochen. Deine Karte wartet hier auf dich.',
       );
     } catch {
-      setError('Sharing failed. Try the Download PNG button.');
+      setError('Teilen hat nicht geklappt. Versuch es mit „PNG speichern“.');
     } finally {
       setBusy(false);
     }
@@ -80,10 +84,10 @@ export function ShareDialog({
       <div className="share-dialog-inner">
         <div className="share-heading">
           <div>
-            <div className="eyebrow orange">OFFICIAL UNOFFICIAL CERTIFICATE</div>
-            <h2 id="share-title">MAKE IT THE GROUP CHAT’S PROBLEM.</h2>
+            <div className="eyebrow orange">AMTLICH UNAMTLICHES ZERTIFIKAT</div>
+            <h2 id="share-title">MACH ES ZUM PROBLEM DES GRUPPENCHATS.</h2>
           </div>
-          <button className="icon-button" onClick={onClose} aria-label="Close share dialog">
+          <button className="icon-button" onClick={onClose} aria-label="Teilen-Fenster schließen">
             <X aria-hidden="true" />
           </button>
         </div>
@@ -93,17 +97,17 @@ export function ShareDialog({
             src={card.url}
             width={1200}
             height={1200}
-            alt={`Hard Hands Calculator certificate: ${score} out of 1000. ${rank.name}. ${rank.tagline}`}
+            alt={`Hard Hands Calculator: Zertifikat mit ${score} von 1000 Punkten. ${rank.name}. ${rank.tagline}`}
           />
         ) : (
           <p className="share-loading" role="status">
-            {error || 'STAMPING YOUR CERTIFICATE…'}
+            {error || 'DEIN ZERTIFIKAT WIRD ABGESTEMPELT …'}
           </p>
         )}
         <div className="share-actions">
           <button className="button primary" disabled={!card || busy} onClick={share}>
             <Share2 aria-hidden="true" size={18} />
-            {busy ? 'SHARING…' : 'SHARE CARD'}
+            {busy ? 'WIRD GETEILT …' : 'KARTE TEILEN'}
           </button>
           <button
             className="button secondary"
@@ -111,15 +115,17 @@ export function ShareDialog({
             onClick={() => {
               if (card) {
                 downloadCard(card.blob, score);
-                setStatus('PNG downloaded. Send it to someone with softer hands.');
+                setStatus('PNG gespeichert. Schick es jemandem mit weicheren Händen.');
               }
             }}
           >
-            <Download aria-hidden="true" size={18} /> DOWNLOAD PNG
+            <Download aria-hidden="true" size={18} /> PNG SPEICHERN
           </button>
         </div>
         <p className="share-status" role="status">
-          {error || status || 'Native sharing where supported. PNG download everywhere else.'}
+          {error ||
+            status ||
+            'Direkt teilen, wenn dein Browser es unterstützt. Sonst wird die PNG gespeichert.'}
         </p>
       </div>
     </dialog>

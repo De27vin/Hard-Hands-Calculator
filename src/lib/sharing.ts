@@ -1,5 +1,6 @@
 import type { Rank } from '../types';
 import { getResultMeme } from '../data/memes';
+import { QUESTION_COUNT } from '../data/questions';
 
 function wrappedText(
   ctx: CanvasRenderingContext2D,
@@ -21,22 +22,43 @@ function wrappedText(
   return y + lineHeight;
 }
 
-// Canvas uses device-local fonts and shapes; no network, screenshots, or image APIs.
-export async function createShareCard(score: number, rank: Rank): Promise<Blob> {
+export async function loadMemeImage(src: string, timeoutMs = 8000): Promise<HTMLImageElement> {
+  const image = new Image();
+  const loaded = new Promise<void>((resolve, reject) => {
+    image.onload = () => resolve();
+    image.onerror = () => reject(new Error('Meme-Bild konnte nicht geladen werden.'));
+  });
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  try {
+    image.src = src;
+    await Promise.race([
+      loaded,
+      new Promise<never>((_, reject) => {
+        timeout = setTimeout(() => reject(new Error('Das Meme-Bild braucht zu lange.')), timeoutMs);
+      }),
+    ]);
+    if (image.decode) await image.decode();
+    return image;
+  } finally {
+    clearTimeout(timeout);
+    image.onload = null;
+    image.onerror = null;
+  }
+}
+
+// All images and fonts are local assets. A failed background never prevents PNG export.
+export async function createShareCard(score: number, rank: Rank, commentary = ''): Promise<Blob> {
   await document.fonts.ready;
   const canvas = document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 1200;
   const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Your browser could not create an image. Try another browser.');
+  if (!ctx)
+    throw new Error('Dein Browser kann gerade kein Bild erstellen. Bitte versuche es erneut.');
   ctx.fillStyle = '#141413';
   ctx.fillRect(0, 0, 1200, 1200);
-  // Same-origin bundled assets keep PNG export independent of third-party CORS.
-  // An unavailable image still yields a complete, readable text certificate.
   try {
-    const image = new Image();
-    image.src = getResultMeme(score).src;
-    await image.decode();
+    const image = await loadMemeImage(getResultMeme(score).src);
     const scale = Math.max(1200 / image.naturalWidth, 1200 / image.naturalHeight);
     const width = image.naturalWidth * scale;
     const height = image.naturalHeight * scale;
@@ -44,9 +66,9 @@ export async function createShareCard(score: number, rank: Rank): Promise<Blob> 
     ctx.fillStyle = 'rgba(20, 20, 19, 0.78)';
     ctx.fillRect(0, 0, 1200, 1200);
   } catch {
-    /* Keep the text-only background when image decoding is unavailable. */
+    /* Ohne Bild bleibt das vollständige Text-Zertifikat erhalten. */
   }
-  ctx.strokeStyle = '#292925';
+  ctx.strokeStyle = '#39392f';
   for (let i = 0; i <= 1200; i += 60) {
     ctx.beginPath();
     ctx.moveTo(i, 0);
@@ -76,41 +98,53 @@ export async function createShareCard(score: number, rank: Rank): Promise<Blob> 
   ctx.textAlign = 'center';
   ctx.fillStyle = '#ff621d';
   ctx.font = 'bold 27px monospace';
-  ctx.fillText('HARD HANDS CALCULATOR', 600, 105);
+  ctx.fillText('HARD HANDS CALCULATOR', 600, 100);
   ctx.fillStyle = '#f4f1e8';
-  ctx.font = '800 82px "Barlow Condensed", Impact, sans-serif';
-  ctx.fillText("You've got soooft hands", 600, 200);
-  ctx.fillText('sissy boy', 600, 278);
+  ctx.font = '800 93px "Barlow Condensed", Impact, sans-serif';
+  ctx.fillText('BRUDER, SOOO WEICHE HÄNDE?', 600, 220);
   ctx.font = '22px monospace';
-  ctx.fillStyle = '#aca99f';
-  ctx.fillText('OFFICIAL UNOFFICIAL HARDNESS CERTIFICATE', 600, 329);
+  ctx.fillStyle = '#bab7aa';
+  ctx.fillText('AMTLICH UNAMTLICHES HÄRTE-ZERTIFIKAT', 600, 277);
   ctx.fillStyle = rank.color;
-  ctx.font = '800 340px "Barlow Condensed", Impact, sans-serif';
-  ctx.fillText(String(score).padStart(3, '0'), 600, 604);
-  ctx.font = 'bold 32px monospace';
-  ctx.fillStyle = '#aca99f';
-  ctx.fillText('/ 1000 HARDNESS POINTS', 600, 671);
+  ctx.font = '800 310px "Barlow Condensed", Impact, sans-serif';
+  ctx.fillText(String(score).padStart(3, '0'), 600, 570);
+  ctx.font = 'bold 30px monospace';
+  ctx.fillStyle = '#bab7aa';
+  ctx.fillText('/ 1000 HÄRTEPUNKTE', 600, 629);
   ctx.fillStyle = '#36362f';
-  ctx.fillRect(100, 718, 1000, 16);
+  ctx.fillRect(100, 672, 1000, 14);
   ctx.fillStyle = rank.color;
-  ctx.fillRect(100, 718, score, 16);
-  ctx.font = '800 72px "Barlow Condensed", Impact, sans-serif';
+  ctx.fillRect(100, 672, score, 14);
+  ctx.font = '800 67px "Barlow Condensed", Impact, sans-serif';
   ctx.fillStyle = '#f4f1e8';
-  const rankEnd = wrappedText(ctx, rank.name, 600, 832, 1020, 70);
-  ctx.font = 'bold 27px monospace';
+  const rankEnd = wrappedText(ctx, rank.name, 600, 778, 1040, 64);
+  ctx.font = 'bold 24px monospace';
   ctx.fillStyle = rank.color;
-  wrappedText(ctx, rank.tagline, 600, rankEnd + 32, 1000, 38);
+  const taglineEnd = wrappedText(ctx, rank.tagline, 600, rankEnd + 13, 1020, 33);
+  ctx.font = '600 25px "DM Sans", Arial, sans-serif';
+  ctx.fillStyle = '#eee9dc';
+  const note = commentary || getResultMeme(score).caption;
+  wrappedText(ctx, note, 600, taglineEnd + 28, 1000, 34);
   ctx.font = '22px monospace';
-  ctx.fillStyle = '#aca99f';
-  ctx.fillText('30 QUESTIONS. 1 SCORE. ZERO MERCY.', 600, 1080);
-  ctx.font = '19px monospace';
-  ctx.fillText('100% SATIRE. 0% SCIENTIFIC ACCURACY.', 600, 1130);
-  return new Promise((resolve, reject) =>
-    canvas.toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error('PNG export failed. Please try again.'))),
-      'image/png',
-    ),
-  );
+  ctx.fillStyle = '#bab7aa';
+  ctx.fillText(`${QUESTION_COUNT} FRAGEN. 1 URTEIL. NULL GNADE.`, 600, 1090);
+  ctx.font = '18px monospace';
+  ctx.fillText('100 % SATIRE. 0 % WISSENSCHAFTLICH.', 600, 1140);
+  return new Promise((resolve, reject) => {
+    try {
+      canvas.toBlob(
+        (blob) =>
+          blob
+            ? resolve(blob)
+            : reject(new Error('PNG konnte nicht erstellt werden. Bitte erneut versuchen.')),
+        'image/png',
+      );
+    } catch {
+      reject(
+        new Error('Das Bild konnte nicht exportiert werden. Bitte versuche einen anderen Browser.'),
+      );
+    }
+  });
 }
 
 export function downloadCard(blob: Blob, score: number): void {
@@ -121,7 +155,6 @@ export function downloadCard(blob: Blob, score: number): void {
   document.body.append(link);
   link.click();
   link.remove();
-  // Give mobile browsers enough time to consume the object URL.
   window.setTimeout(() => URL.revokeObjectURL(url), 30_000);
 }
 
@@ -131,19 +164,18 @@ export async function shareCard(
   rank: Rank,
 ): Promise<'shared' | 'downloaded' | 'cancelled'> {
   const file = new File([blob], `hard-hands-${score}.png`, { type: 'image/png' });
-  if (navigator.share && navigator.canShare?.({ files: [file] })) {
-    try {
+  try {
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
       await navigator.share({
         files: [file],
-        title: "You've got soooft hands sissy boy",
-        text: `I scored ${score}/1000: ${rank.name}. ${rank.tagline} Your turn.`,
+        title: 'Bruder, sooo weiche Hände?',
+        text: `Ich habe ${score}/1000 Punkte: ${rank.name}. ${rank.tagline} Jetzt bist du dran.`,
       });
       return 'shared';
-    } catch (error) {
-      if (error && typeof error === 'object' && 'name' in error && error.name === 'AbortError')
-        return 'cancelled';
-      // Restricted or unsupported share targets fall back to an ordinary download.
     }
+  } catch (error) {
+    if (error && typeof error === 'object' && 'name' in error && error.name === 'AbortError')
+      return 'cancelled';
   }
   downloadCard(blob, score);
   return 'downloaded';

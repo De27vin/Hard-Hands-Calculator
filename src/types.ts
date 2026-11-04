@@ -26,6 +26,7 @@ export interface Question {
   answers: Answer[];
 }
 export type Answers = Partial<Record<string, string>>;
+export type AnswerOrder = Record<string, string[]>;
 export interface CategoryScore {
   category: Category;
   points: number;
@@ -38,6 +39,12 @@ export interface Score {
   max: number;
   categories: CategoryScore[];
 }
+export interface CurrentHardness {
+  total: number | null;
+  answeredCount: number;
+  raw: number;
+  max: number;
+}
 export interface Rank {
   min: number;
   max: number;
@@ -48,17 +55,31 @@ export interface Rank {
   color: string;
   level: number;
 }
-export interface Reaction {
-  questionId: string;
-  answerIds: string[];
+export interface Meme {
+  id: string;
+  src: string;
+  alt: string;
+  title: string;
+  kind: 'soft' | 'hard';
+  position?: string;
+  source?: string;
+}
+export interface MemeReaction {
   text: string;
+  meme: Meme;
+  kind: 'soft' | 'hard';
+  intensity: 'normal' | 'high';
+  stage: 'early' | 'middle' | 'late';
 }
 export type QuizView = 'landing' | 'quiz' | 'calculating' | 'results';
 export interface QuizState {
   view: QuizView;
   index: number;
   answers: Answers;
+  answerOrder: AnswerOrder;
+  seed: number;
 }
 export type QuizAction =
-  | { type: 'start' | 'next' | 'previous' | 'finish' | 'restart' }
+  | { type: 'start'; answerOrder: AnswerOrder; seed: number }
+  | { type: 'next' | 'previous' | 'finish' | 'restart' }
   | { type: 'answer'; questionId: string; answerId: string };

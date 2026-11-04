@@ -8,6 +8,7 @@ import type { Answers } from '../types';
 import { ShareDialog } from '../components/ShareDialog';
 import { RankIcon } from '../components/RankIcon';
 import { getResultMeme } from '../data/memes';
+import { QUESTION_COUNT } from '../data/questions';
 
 function AnimatedScore({ value }: { value: number }) {
   const [displayed, setDisplayed] = useState(value);
@@ -45,17 +46,15 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
     >
       <div className="results-topline">
         <span className="eyebrow">
-          <Check aria-hidden="true" size={16} /> INSPECTION COMPLETE
+          <Check aria-hidden="true" size={16} /> PRÜFUNG ABGESCHLOSSEN
         </span>
-        <span className="mono muted">
-          CERTIFICATE NO. HH–{String(score.total).padStart(4, '0')}
-        </span>
+        <span className="mono muted">AKTE NR. HH–{String(score.total).padStart(4, '0')}</span>
       </div>
       <div className="results-layout">
         <section className="score-certificate" aria-labelledby="result-title">
           <div className="hazard-stripe" />
           <div className="certificate-inner">
-            <div className="eyebrow muted">YOUR HARDNESS SCORE</div>
+            <div className="eyebrow muted">DEIN HÄRTEGRAD</div>
             <h1
               className={`huge-score ${score.total === 1000 ? 'four-digit' : ''}`}
               id="result-title"
@@ -67,7 +66,7 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
             <div
               className="hardness-meter"
               role="meter"
-              aria-label="Hardness score"
+              aria-label="Härtegrad"
               aria-valuemin={0}
               aria-valuemax={1000}
               aria-valuenow={score.total}
@@ -75,8 +74,8 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
               <span style={{ width: `${score.total / 10}%` }} />
             </div>
             <div className="meter-labels">
-              <span>LOTION ENTHUSIAST</span>
-              <span>HEAVY MACHINERY</span>
+              <span>STREICHZART</span>
+              <span>SCHWERES GERÄT</span>
             </div>
             <div className="rank-verdict">
               <span className="result-emoji">
@@ -84,21 +83,36 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
                 <span className="sr-only">{rank.emoji}</span>
               </span>
               <div>
-                <span className="eyebrow muted">THE VERDICT / LEVEL 0{rank.level}</span>
+                <span className="eyebrow muted">DAS URTEIL / STUFE 0{rank.level}</span>
                 <h2>{rank.name}</h2>
               </div>
             </div>
             <p className="rank-description">“{rank.description}”</p>
             <div className="certification-seal">
               <ShieldCheck aria-hidden="true" size={20} />
-              <span>100% UNOFFICIAL. 100% YOUR PROBLEM.</span>
+              <span>100 % UNAMTLICH. 100 % DEIN PROBLEM.</span>
             </div>
           </div>
         </section>
         <div className="results-detail">
+          <figure
+            className={`result-meme result-meme-${meme.kind} ${rank.level <= 3 ? 'result-meme-prominent' : ''}`}
+          >
+            <img
+              src={meme.src}
+              alt={meme.alt}
+              width={716}
+              height={800}
+              style={{ objectPosition: meme.position }}
+            />
+            <figcaption>
+              <span className="eyebrow orange">DAS GESICHT ZUM ERGEBNIS</span>
+              <p>{meme.caption}</p>
+            </figcaption>
+          </figure>
           <section className="breakdown" aria-labelledby="breakdown-title">
-            <div className="eyebrow orange">THE DAMAGE REPORT</div>
-            <h2 id="breakdown-title">WHERE YOU STAND.</h2>
+            <div className="eyebrow orange">DIE SCHADENSBILANZ</div>
+            <h2 id="breakdown-title">WO DU WIRKLICH STEHST.</h2>
             {score.categories.map((c) => (
               <div className="category-score" key={c.category.id}>
                 <div>
@@ -115,26 +129,21 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
             ))}
             <details className="scoring-details">
               <summary>
-                HOW THE MATH WORKS <ArrowRight aria-hidden="true" size={14} />
+                SO WIRD GERECHNET <ArrowRight aria-hidden="true" size={14} />
               </summary>
               <p>
-                Each answer earns 0–4 points. All 30 questions carry equal weight. Your {score.raw}{' '}
-                / {score.max} raw points are normalized to 1000 and rounded once. Each category
-                contributes up to one sixth of the total. Percentages above describe each category
-                independently.
+                Jede Antwort gibt 0–4 Rohpunkte. Alle {QUESTION_COUNT} Fragen zählen gleich viel.
+                Deine {score.raw} von {score.max} Rohpunkten werden auf 1000 Punkte umgerechnet und
+                einmal gerundet. Die Prozentwerte zeigen den Anteil innerhalb des jeweiligen
+                Bereichs. Bereiche mit vier Fragen haben maximal 16 Rohpunkte, Bereiche mit drei
+                Fragen maximal 12. Schutz, Erholung und sichere Arbeitsstopps bringen keinen Abzug.
               </p>
             </details>
           </section>
-          <figure className="result-meme">
-            <img src={meme.src} alt={meme.alt} width={716} height={704} />
-            <figcaption>
-              <span className="eyebrow orange">THE FOREMAN’S REACTION</span>
-              <p>{meme.caption}</p>
-            </figcaption>
-          </figure>
+
           <section className="commentary" aria-labelledby="commentary-title">
-            <div className="eyebrow orange">A WORD FROM THE COMMITTEE</div>
-            <h2 id="commentary-title">WE HAVE SOME NOTES.</h2>
+            <div className="eyebrow orange">EINE ANMERKUNG DER KOMMISSION</div>
+            <h2 id="commentary-title">WIR MÜSSEN REDEN.</h2>
             {commentary.map((line, i) => (
               <p key={line}>
                 <span>0{i + 1}</span>
@@ -147,22 +156,29 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
       <section className="results-actions">
         <div>
           <h2>{rank.tagline}</h2>
-          <p>The group chat deserves to know.</p>
+          <p>Der Gruppenchat hat ein Recht auf diese Information.</p>
         </div>
         <div className="result-buttons">
           <button className="button primary" onClick={() => setSharing(true)}>
-            <Share2 aria-hidden="true" size={19} /> SHARE RESULTS
+            <Share2 aria-hidden="true" size={19} /> ERGEBNIS TEILEN
           </button>
           <button className="button secondary" onClick={onRestart}>
-            <RotateCcw aria-hidden="true" size={17} /> RESTART QUIZ
+            <RotateCcw aria-hidden="true" size={17} /> NOCH MAL ANTRETEN
           </button>
         </div>
       </section>
       <p className="results-disclaimer">
-        This is a joke, brother. All professions deserve respect. Toughness isn’t a health metric.
-        Wear your PPE, take your breaks, and moisturize those magnificent hands.
+        Das ist Satire, Bruder. Jede Arbeit verdient Respekt. Härte ist kein Gesundheitswert. Trag
+        deine Schutzausrüstung, mach Pause und pflege diese prächtigen Hände.
       </p>
-      {sharing && <ShareDialog score={score.total} rank={rank} onClose={() => setSharing(false)} />}
+      {sharing && (
+        <ShareDialog
+          score={score.total}
+          rank={rank}
+          commentary={commentary[0]}
+          onClose={() => setSharing(false)}
+        />
+      )}
     </main>
   );
 }

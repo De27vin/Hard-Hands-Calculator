@@ -1,0 +1,49 @@
+{
+  "sourceDirectory": "~/Downloads/cp cyril",
+  "inspectedImages": 7,
+  "selected": [
+    {
+      "source": "5282fd4d-aa1d-4633-8be8-6c352cb24cbf.jpeg",
+      "sourceSha256": "16fdfbb216829a8c468a912f8c63a37e4152965165a6d42ff3ca2b5a6c968f6b",
+      "output": "5282fd4d-aa1d-4633-8be8-6c352cb24cbf.webp",
+      "bytes": 30818,
+      "width": 599,
+      "height": 800
+    },
+    {
+      "source": "8878ab65-fc6b-46b1-9c4c-7dd2149a7031.jpeg",
+      "sourceSha256": "9a14fee51d81eb541e5170bd4449936a4e5a52dc4602e02baf062f095ce26c25",
+      "output": "8878ab65-fc6b-46b1-9c4c-7dd2149a7031.webp",
+      "bytes": 36252,
+      "width": 599,
+      "height": 800
+    },
+    {
+      "source": "WhatsApp Image 2026-09-17 at 09.32.16.jpeg",
+      "sourceSha256": "6d5a52510d9f7f2b6e47c8ce6bfa03afe1351230218e94da641c67d0cad3d429",
+      "output": "WhatsApp Image 2026-09-17 at 09.32.16.webp",
+      "bytes": 19856,
+      "width": 599,
+      "height": 800
+    },
+    {
+      "source": "e97c7f78-f5c1-4b7a-a077-9b67a6bdd00c.jpeg",
+      "sourceSha256": "726eb3249462f5d87ce95f2977d5772f5dedee7923c21b96acb0a328ccf5404c",
+      "output": "e97c7f78-f5c1-4b7a-a077-9b67a6bdd00c.webp",
+      "bytes": 27646,
+      "width": 599,
+      "height": 800
+    }
+  ],
+  "processing": "Schwarze Screenshot-Ränder entfernen; Foto-Seitenverhältnis erhalten; auf maximal 600×800 verkleinern (Ergebnis 599×800); Metadaten entfernen; WebP-Qualität 78.",
+  "inspectedFiles": [
+    "5282fd4d-aa1d-4633-8be8-6c352cb24cbf.jpeg",
+    "8878ab65-fc6b-46b1-9c4c-7dd2149a7031.jpeg",
+    "WhatsApp Image 2026-09-17 at 09.29.25.jpeg",
+    "WhatsApp Image 2026-09-17 at 09.32.15 (1).jpeg",
+    "WhatsApp Image 2026-09-17 at 09.32.15.jpeg",
+    "WhatsApp Image 2026-09-17 at 09.32.16.jpeg",
+    "e97c7f78-f5c1-4b7a-a077-9b67a6bdd00c.jpeg"
+  ],
+  "totalOutputBytes": 114572
+}

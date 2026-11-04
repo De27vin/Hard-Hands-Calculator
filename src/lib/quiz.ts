@@ -2,20 +2,32 @@ import { questions } from '../data/questions';
 import { isComplete } from './scoring';
 import type { QuizAction, QuizState } from '../types';
 
-export const initialState: QuizState = { view: 'landing', index: 0, answers: {} };
+export const initialState: QuizState = {
+  view: 'landing',
+  index: 0,
+  answers: {},
+  answerOrder: {},
+  seed: 0,
+};
 
 export function quizReducer(state: QuizState, action: QuizAction): QuizState {
   switch (action.type) {
     case 'start':
-      return { view: 'quiz', index: 0, answers: {} };
+      return {
+        view: 'quiz',
+        index: 0,
+        answers: {},
+        answerOrder: action.answerOrder,
+        seed: action.seed,
+      };
     case 'restart':
-      return { ...initialState, answers: {} };
+      return { ...initialState, answers: {}, answerOrder: {} };
     case 'answer': {
       const question = questions[state.index];
       if (
         state.view !== 'quiz' ||
         question.id !== action.questionId ||
-        !question.answers.some((a) => a.id === action.answerId)
+        !question.answers.some((answer) => answer.id === action.answerId)
       )
         return state;
       return { ...state, answers: { ...state.answers, [action.questionId]: action.answerId } };
@@ -26,7 +38,7 @@ export function quizReducer(state: QuizState, action: QuizAction): QuizState {
       if (
         state.view !== 'quiz' ||
         !questions[state.index].answers.some(
-          (a) => a.id === state.answers[questions[state.index].id],
+          (answer) => answer.id === state.answers[questions[state.index].id],
         )
       )
         return state;
