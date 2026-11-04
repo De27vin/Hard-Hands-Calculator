@@ -1,6 +1,6 @@
 # Hard Hands Calculator
 
-**Bruder, sooo weiche Hände?**
+**You've got soooft hands sissy boy**
 
 Ein deutscher, satirischer Härtecheck mit 20 Fragen, sechs Bereichen, acht Rängen und 0–1000 Punkten. Antwortreihenfolgen werden pro Durchlauf einmal gemischt. Weiche Antworten lösen häufiger die bereitgestellten Soft-Hands-Fotos und zunehmend freche Kommentare aus. Bei harten Ergebnissen bleiben die vorhandenen Blue-Collar-SpongeBob-Motive im Einsatz.
 

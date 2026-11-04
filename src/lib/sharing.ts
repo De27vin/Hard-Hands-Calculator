@@ -100,11 +100,12 @@ export async function createShareCard(score: number, rank: Rank, commentary = ''
   ctx.font = 'bold 27px monospace';
   ctx.fillText('HARD HANDS CALCULATOR', 600, 100);
   ctx.fillStyle = '#f4f1e8';
-  ctx.font = '800 93px "Barlow Condensed", Impact, sans-serif';
-  ctx.fillText('BRUDER, SOOO WEICHE HÄNDE?', 600, 220);
+  ctx.font = '800 82px "Barlow Condensed", Impact, sans-serif';
+  ctx.fillText("You've got soooft hands", 600, 190);
+  ctx.fillText('sissy boy', 600, 265);
   ctx.font = '22px monospace';
   ctx.fillStyle = '#bab7aa';
-  ctx.fillText('AMTLICH UNAMTLICHES HÄRTE-ZERTIFIKAT', 600, 277);
+  ctx.fillText('AMTLICH UNAMTLICHES HÄRTE-ZERTIFIKAT', 600, 320);
   ctx.fillStyle = rank.color;
   ctx.font = '800 310px "Barlow Condensed", Impact, sans-serif';
   ctx.fillText(String(score).padStart(3, '0'), 600, 570);
@@ -168,7 +169,7 @@ export async function shareCard(
     if (navigator.share && navigator.canShare?.({ files: [file] })) {
       await navigator.share({
         files: [file],
-        title: 'Bruder, sooo weiche Hände?',
+        title: "You've got soooft hands sissy boy",
         text: `Ich habe ${score}/1000 Punkte: ${rank.name}. ${rank.tagline} Jetzt bist du dran.`,
       });
       return 'shared';

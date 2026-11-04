@@ -22,10 +22,10 @@ export function Landing({ onStart }: { onStart: () => void }) {
           <div className="eyebrow">
             <span className="mini-stripes" /> DER AMTLICH UNAMTLICHE HÄRTECHECK
           </div>
-          <h1 id="landing-title" tabIndex={-1}>
-            <span className="hero-line">Bruder, </span>
-            <span className="hero-line orange">sooo weiche </span>
-            <span className="hero-line">Hände?</span>
+          <h1 id="landing-title" lang="en" tabIndex={-1}>
+            <span className="hero-line">You've got </span>
+            <span className="hero-line orange">soooft hands </span>
+            <span className="hero-line">sissy boy</span>
           </h1>
           <p className="hero-description">
             Dein Schreibtisch hat Rollen. Deine Ausreden auch.

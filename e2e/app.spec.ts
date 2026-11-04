@@ -12,8 +12,8 @@ test('deutsche Oberfläche, stabile Mischung, Bearbeitung, PNG und Neustart', as
   });
   await page.goto('/', { waitUntil: 'networkidle' });
   await expect(page.locator('html')).toHaveAttribute('lang', 'de');
-  await expect(page).toHaveTitle(/Bruder, sooo weiche Hände/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Bruder, sooo weiche Hände?');
+  await expect(page).toHaveTitle(/soooft hands sissy boy/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText("You've got soooft hands sissy boy");
   const photos = await page
     .locator('.hero-soft-sticker img, .meme-report img')
     .evaluateAll((images) => images.map((image) => (image as HTMLImageElement).naturalWidth));
