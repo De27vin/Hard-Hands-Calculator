@@ -14,4 +14,4 @@ Retrieved 2026-11-04. Original pixel data is preserved; page layouts crop the im
 
 Vier optimierte WebP-Kopien stammen ausschließlich aus der vom Nutzer bereitgestellten Sammlung `~/Downloads/cp cyril/`. Alle sieben JPEGs wurden geprüft; vier unterschiedliche Motive wurden ausgewählt. Dateinamen, Original-Prüfsummen und Verarbeitung stehen in [docs/soft-hands-assets.json](docs/soft-hands-assets.json). Die Originale wurden nicht verändert. Es wurden keine weiteren Fotos heruntergeladen oder generiert.
 
-Die Bilder liegen unter `public/images/soft-hands/`, sind jeweils 599×800 Pixel groß und benötigen zusammen 114.572 Bytes. Sie werden zur lokalen Vorschau, als Reaktionen, im Ergebnis und im PNG-Hintergrund eingesetzt. Diese Überarbeitung wurde nicht veröffentlicht.
+Die Bilder liegen unter `public/images/soft-hands/`, sind jeweils 599×800 Pixel groß und benötigen zusammen 114.572 Bytes. Sie werden zur lokalen Vorschau, als Reaktionen, im Ergebnis und im PNG-Hintergrund eingesetzt. Die Veröffentlichung dieser Fassung wurde ausdrücklich freigegeben.

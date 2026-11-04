@@ -47,7 +47,7 @@ Gefunden wurde `~/Downloads/cp cyril/` mit sieben JPEGs. Alle wurden visuell und
 
 Aus Kopien wurden schwarze Screenshot-Ränder entfernt und Metadaten gelöscht. Die WebP-Ausgaben sind 599×800 Pixel groß und bewahren das Foto-Seitenverhältnis bis auf Pixelrundung. Sie benötigen zusammen 114.572 statt 449.459 Bytes. Die Originaldateien wurden per SHA-256 vor und nach der Verarbeitung verglichen und blieben unverändert. Tatsächliche Dateinamen und Inventar stehen in `soft-hands-assets.json`.
 
-Die drei vorhandenen SpongeBob-Motive bleiben unverändert erhalten. Es wurden keine zusätzlichen Bilder heruntergeladen oder generiert. Die Fassung liegt auf `feat/deutsche-meme-ueberarbeitung`; GitHub Pages bleibt auf dem bisherigen Stand.
+Die drei vorhandenen SpongeBob-Motive bleiben unverändert erhalten. Es wurden keine zusätzlichen Bilder heruntergeladen oder generiert. Die Fassung liegt auf `feat/deutsche-meme-ueberarbeitung`; nach ausdrücklicher Freigabe wird der statische Build auf `gh-pages` veröffentlicht.
 
 ## Ausgeführte Validierung
 
@@ -61,4 +61,4 @@ Am 4. November 2026 lokal mit Node 24.14.1 geprüft:
 - PNG-Signatur, 1200×1200-Maße, Download-Fallback und Export ohne Hintergrundbild im Browser geprüft.
 - Ausgewählte Originalfotos vor/nach der Verarbeitung per SHA-256 unverändert.
 
-Screenshots und tatsächliche PNG-Exporte liegen unter `test-results/`. Die Browserprüfung nutzt Chromium mit Mobilgrößen und ersetzt keine physischen iOS-/Android- oder manuellen Screenreader-Tests. Die Änderungen wurden nicht auf GitHub Pages veröffentlicht.
+Screenshots und tatsächliche PNG-Exporte liegen unter `test-results/`. Die Browserprüfung nutzt Chromium mit Mobilgrößen und ersetzt keine physischen iOS-/Android- oder manuellen Screenreader-Tests. Nach erfolgreicher Prüfung wurde die Veröffentlichung auf GitHub Pages ausdrücklich freigegeben.

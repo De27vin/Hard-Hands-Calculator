@@ -4,7 +4,9 @@
 
 Ein deutscher, satirischer Härtecheck mit 20 Fragen, sechs Bereichen, acht Rängen und 0–1000 Punkten. Antwortreihenfolgen werden pro Durchlauf einmal gemischt. Weiche Antworten lösen häufiger die bereitgestellten Soft-Hands-Fotos und zunehmend freche Kommentare aus. Bei harten Ergebnissen bleiben die vorhandenen Blue-Collar-SpongeBob-Motive im Einsatz.
 
-Die deutsche Fassung liegt auf `feat/deutsche-meme-ueberarbeitung`. Pushes auf diesen Entwicklungsbranch führen die Validierung aus; GitHub Pages verwendet weiterhin die bisher veröffentlichte Fassung.
+Die deutsche Fassung liegt auf `feat/deutsche-meme-ueberarbeitung`. Pushes auf diesen Entwicklungsbranch führen die Validierung aus. Die freigegebene Veröffentlichung erfolgt über `npm run deploy:pages` auf den separaten Branch `gh-pages`.
+
+Website: https://de27vin.github.io/Hard-Hands-Calculator/
 
 ## Lokal starten
 
@@ -112,7 +114,7 @@ Build: `npm run build`. Ausgabe: `dist`. `base: './'` unterstützt eine Domainwu
 
 - Cloudflare Pages: Build `npm run build`, Ausgabe `dist`, Node 22.12+ oder 24.
 - Vercel: Vite-Vorlage mit denselben Build-Einstellungen.
-- GitHub Pages: Der bestehende Befehl `npm run deploy:pages` baut und pusht die Ausgabe auf `gh-pages`. Nur nach ausdrücklicher Veröffentlichungserlaubnis ausführen. Die Überarbeitung wurde nicht auf GitHub Pages veröffentlicht.
+- GitHub Pages: Der bestehende Befehl `npm run deploy:pages` baut und pusht die Ausgabe auf `gh-pages`. Nur nach ausdrücklicher Veröffentlichungserlaubnis ausführen. Die deutsche Fassung ist zur Veröffentlichung auf GitHub Pages freigegeben.
 - Andere statische Hosts: Inhalt von `dist` einschließlich `assets/` und `images/` bereitstellen.
 
 ## Grenzen
@@ -121,4 +123,4 @@ Build: `npm run build`. Ausgabe: `dist`. `base: './'` unterstützt eine Domainwu
 - Die Punktzahl bleibt Satire; der Zufall beeinflusst nur Reihenfolge und Reaktionsauswahl.
 - Natives Teilen hängt vom Gerät ab. PNG-Download bleibt verfügbar.
 - Chromium-Automation ersetzt keinen manuellen iOS-/Android- oder Screenreader-Test.
-- Die Live-Website bleibt bis zu einer ausdrücklichen Freigabe auf dem bisherigen Stand.
+- Änderungen am Entwicklungsbranch werden erst mit einem expliziten Pages-Publishing-Lauf live.
