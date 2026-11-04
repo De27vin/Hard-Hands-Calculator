@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { categories } from '../data/questions';
 import { ranks } from '../data/ranks';
-import { HandMark } from '../components/HandMark';
+import { memes } from '../data/memes';
 import { RankIcon } from '../components/RankIcon';
 
 export function Landing({ onStart }: { onStart: () => void }) {
@@ -23,8 +23,8 @@ export function Landing({ onStart }: { onStart: () => void }) {
             <span className="mini-stripes" /> THE OFFICIAL UNOFFICIAL TOUGHNESS TEST
           </div>
           <h1 id="landing-title" tabIndex={-1}>
-            <span className="hero-line">You've got{' '}</span>
-            <span className="hero-line orange">soooft hands{' '}</span>
+            <span className="hero-line">You've got </span>
+            <span className="hero-line orange">soooft hands </span>
             <span className="hero-line">sissy boy</span>
           </h1>
           <p className="hero-description">
@@ -41,46 +41,25 @@ export function Landing({ onStart }: { onStart: () => void }) {
             <span>NO SIGN-UP. NO EXCUSES.</span>
           </div>
         </div>
-        <div
-          className="inspection-art"
-          aria-label="Decorative fictional industrial hand inspection diagram"
-          role="img"
-        >
+        <div className="inspection-art">
           <div className="art-top">
             <span>
-              <ScanLine aria-hidden="true" size={17} /> HAND INSPECTION UNIT
+              <ScanLine aria-hidden="true" size={17} /> THE INSPECTION FOREMAN
             </span>
             <span>HH–001</span>
           </div>
-          <div className="art-scan">
-            <div className="scan-ring ring-one" />
-            <div className="scan-ring ring-two" />
-            <div className="crosshair crosshair-one" />
-            <div className="crosshair crosshair-two" />
-            <span className="scan-label label-left">
-              PALM INTEGRITY
-              <br />
-              AWAITING INPUT
-            </span>
-            <span className="scan-label label-right">
-              CALLOUS INDEX
-              <br />
-              ???.??
-            </span>
-            <HandMark className="hero-hand" />
-            <div className="scan-beam" />
-            <span className="scan-coordinate">X: 000 / Y: TOUGH</span>
-            <div className="inspection-stamp">
-              <ShieldCheck aria-hidden="true" size={24} />
-              <span>
-                NOT EVEN
-                <br />
-                <strong>
-                  SLIGHTLY
-                  <br />
-                  SCIENTIFIC
-                </strong>
-              </span>
+          <div className="foreman-photo">
+            <img
+              className="hero-meme"
+              src={memes.construction.src}
+              alt={memes.construction.alt}
+              width={716}
+              height={704}
+              fetchPriority="high"
+            />
+            <div className="foreman-caption">
+              <span className="eyebrow">YOUR ASSIGNED FOREMAN</span>
+              <strong>“A BREAK? I JUST GOT HERE.”</strong>
             </div>
           </div>
           <div className="art-bottom">
@@ -106,6 +85,56 @@ export function Landing({ onStart }: { onStart: () => void }) {
           <ArrowDown aria-hidden="true" size={28} />
         </div>
       </div>
+      <section className="meme-reports container" aria-labelledby="reports-title">
+        <div className="meme-reports-heading">
+          <span className="eyebrow orange">REPORTS FROM THE TRENCHES</span>
+          <h2 id="reports-title">IT’S BEEN A LONG FIVE MINUTES.</h2>
+        </div>
+        <div className="meme-report-grid">
+          <figure className="meme-report">
+            <img
+              src={memes.miner.src}
+              alt={memes.miner.alt}
+              width={716}
+              height={658}
+              decoding="async"
+            />
+            <figcaption>
+              <span className="eyebrow muted">AFTER ONE HOUSEHOLD CHORE</span>
+              <h3>“I JUST DID THE DISHES. DON’T TALK TO ME ABOUT HARD WORK.”</h3>
+              <p>The sink was basically a coal mine.</p>
+            </figcaption>
+          </figure>
+          <figure className="meme-report">
+            <img
+              src={memes.jobsite.src}
+              alt={memes.jobsite.alt}
+              width={716}
+              height={1031}
+              decoding="async"
+            />
+            <figcaption>
+              <span className="eyebrow muted">AFTER A MINOR DIY PROJECT</span>
+              <h3>“CHANGED A LIGHT BULB. THE FAMILY’S FED FOR ANOTHER DAY.”</h3>
+              <p>A provider. A legend. A guy with a stepladder.</p>
+            </figcaption>
+          </figure>
+        </div>
+        <details className="meme-source-details">
+          <summary>
+            MEME SOURCES <ArrowDown aria-hidden="true" size={13} />
+          </summary>
+          <ul>
+            {Object.values(memes).map((meme) => (
+              <li key={meme.source}>
+                <a href={meme.source} target="_blank" rel="noreferrer">
+                  {meme.title} · Know Your Meme
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </section>
       <section className="measure-section container" aria-labelledby="measure-title">
         <div className="section-intro">
           <div className="eyebrow orange">THE INSPECTION CHECKLIST</div>

@@ -6,8 +6,16 @@ test('landing, complete quiz, edit answers, PNG export, and restart', async ({ p
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
   await expect(page).toHaveTitle(/Hard Hands Calculator/);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText("You've got soooft hands sissy boy");
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+    "You've got soooft hands sissy boy",
+  );
   await page.evaluate(() => document.fonts.ready);
+  await expect
+    .poll(() =>
+      page.locator('.hero-meme').evaluate((image: HTMLImageElement) => image.naturalWidth),
+    )
+    .toBeGreaterThan(0);
+  await expect(page.locator('.meme-report img')).toHaveCount(2);
   await page.screenshot({
     path: `test-results/home-${test.info().project.name}.png`,
     fullPage: true,
@@ -25,6 +33,7 @@ test('landing, complete quiz, edit answers, PNG export, and restart', async ({ p
   await expect(page.getByRole('radio').nth(2)).toBeChecked();
   await page.getByRole('radio').first().check();
   await expect(page.getByRole('status')).toContainText('weather wants you to quit');
+  await expect(page.locator('.reaction-meme')).toBeVisible();
   await page.screenshot({
     path: `test-results/quiz-${test.info().project.name}.png`,
     fullPage: true,
@@ -43,6 +52,11 @@ test('landing, complete quiz, edit answers, PNG export, and restart', async ({ p
   await expect(page.getByRole('heading', { name: /967/ })).toBeVisible({ timeout: 10_000 });
   await expect(page.getByRole('heading', { name: 'THE FINAL BOSS' })).toBeVisible();
   await expect(page.getByRole('meter')).toHaveAttribute('aria-valuenow', '967');
+  await expect
+    .poll(() =>
+      page.locator('.result-meme img').evaluate((image: HTMLImageElement) => image.naturalWidth),
+    )
+    .toBeGreaterThan(0);
   await expect(page.getByText(/keyboard has seen more action/)).toBeVisible();
   await expect(page.locator('.huge-score > [aria-hidden]')).toHaveText('967');
   await page.screenshot({

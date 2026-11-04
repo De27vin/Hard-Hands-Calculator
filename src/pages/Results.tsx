@@ -7,6 +7,7 @@ import { getCommentary } from '../data/reactions';
 import type { Answers } from '../types';
 import { ShareDialog } from '../components/ShareDialog';
 import { RankIcon } from '../components/RankIcon';
+import { getResultMeme } from '../data/memes';
 
 function AnimatedScore({ value }: { value: number }) {
   const [displayed, setDisplayed] = useState(value);
@@ -34,6 +35,7 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
   const score = calculateScore(answers);
   const rank = getRank(score.total);
   const commentary = getCommentary(answers);
+  const meme = getResultMeme(score.total);
   const [sharing, setSharing] = useState(false);
   return (
     <main
@@ -123,6 +125,13 @@ export function Results({ answers, onRestart }: { answers: Answers; onRestart: (
               </p>
             </details>
           </section>
+          <figure className="result-meme">
+            <img src={meme.src} alt={meme.alt} width={716} height={704} />
+            <figcaption>
+              <span className="eyebrow orange">THE FOREMAN’S REACTION</span>
+              <p>{meme.caption}</p>
+            </figcaption>
+          </figure>
           <section className="commentary" aria-labelledby="commentary-title">
             <div className="eyebrow orange">A WORD FROM THE COMMITTEE</div>
             <h2 id="commentary-title">WE HAVE SOME NOTES.</h2>

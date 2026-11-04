@@ -1,4 +1,5 @@
 import type { Rank } from '../types';
+import { getResultMeme } from '../data/memes';
 
 function wrappedText(
   ctx: CanvasRenderingContext2D,
@@ -30,6 +31,21 @@ export async function createShareCard(score: number, rank: Rank): Promise<Blob> 
   if (!ctx) throw new Error('Your browser could not create an image. Try another browser.');
   ctx.fillStyle = '#141413';
   ctx.fillRect(0, 0, 1200, 1200);
+  // Same-origin bundled assets keep PNG export independent of third-party CORS.
+  // An unavailable image still yields a complete, readable text certificate.
+  try {
+    const image = new Image();
+    image.src = getResultMeme(score).src;
+    await image.decode();
+    const scale = Math.max(1200 / image.naturalWidth, 1200 / image.naturalHeight);
+    const width = image.naturalWidth * scale;
+    const height = image.naturalHeight * scale;
+    ctx.drawImage(image, (1200 - width) / 2, (1200 - height) / 2, width, height);
+    ctx.fillStyle = 'rgba(20, 20, 19, 0.78)';
+    ctx.fillRect(0, 0, 1200, 1200);
+  } catch {
+    /* Keep the text-only background when image decoding is unavailable. */
+  }
   ctx.strokeStyle = '#292925';
   for (let i = 0; i <= 1200; i += 60) {
     ctx.beginPath();

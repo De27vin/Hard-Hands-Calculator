@@ -1,15 +1,9 @@
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  HardHat,
-  MessageSquareQuote,
-  ShieldCheck,
-} from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, HardHat, ShieldCheck } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import type { Dispatch } from 'react';
 import { categories, questions } from '../data/questions';
 import { getReaction } from '../data/reactions';
+import { getReactionMeme } from '../data/memes';
 import type { QuizAction, QuizState } from '../types';
 
 export function Quiz({ state, dispatch }: { state: QuizState; dispatch: Dispatch<QuizAction> }) {
@@ -154,7 +148,13 @@ export function Quiz({ state, dispatch }: { state: QuizState; dispatch: Dispatch
           >
             {reaction && (
               <>
-                <MessageSquareQuote aria-hidden="true" size={23} />
+                <img
+                  className="reaction-meme"
+                  src={getReactionMeme(question.id).src}
+                  alt=""
+                  width={72}
+                  height={72}
+                />
                 <p>{reaction}</p>
               </>
             )}

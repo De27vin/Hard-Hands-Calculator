@@ -8,7 +8,7 @@ All professions deserve respect. This is satire, not a health, safety, or biomet
 
 ## Stack
 
-React 19, TypeScript, Vite, Lucide icons, and custom responsive CSS. Barlow Condensed and DM Sans are bundled locally through Fontsource; no Google Fonts requests. CSS and inline SVG supply the industrial illustrations. Native Canvas generates share cards without screenshot libraries or external APIs.
+React 19, TypeScript, Vite, Lucide icons, and custom responsive CSS. Barlow Condensed and DM Sans are bundled locally through Fontsource; no Google Fonts requests. CSS and inline SVG supply the industrial decoration. Three locally bundled Blue Collar SpongeBob meme images appear on the landing page, contextual reactions, results, and share-card backgrounds; see [ASSET_CREDITS.md](ASSET_CREDITS.md) for their sources. Native Canvas generates share cards without screenshot libraries or external APIs.
 
 No backend, database, authentication, API keys, analytics, or paid services. Answers remain in React memory and disappear on refresh or restart. No data is sent anywhere by the app; using the native share sheet sends only the certificate and result text to the destination you select.
 
@@ -110,7 +110,7 @@ Semantic headings, labelled radio groups, native radio keyboard behavior, focus 
 
 ### Sharing
 
-The share dialog builds a 1200×1200 PNG using local bundled fonts and Canvas. It previews the actual image. Share Card uses `navigator.canShare`/`navigator.share` for files when supported, falls back to downloading on unsupported/rejected targets, and respects user cancellation. Download PNG always works independently on browsers with Canvas export. A failed image export displays a readable error. No personal information or externally hosted images are included. Shared score URLs are intentionally omitted.
+The share dialog builds a 1200×1200 PNG using local bundled fonts and Canvas. It previews the actual image. Share Card uses `navigator.canShare`/`navigator.share` for files when supported, falls back to downloading on unsupported/rejected targets, and respects user cancellation. Download PNG always works independently on browsers with Canvas export. A failed image export displays a readable error. No personal information is included. Meme backgrounds use the same locally bundled images as the UI, so Canvas export needs no third-party image requests or CORS permission. Image-decode failures fall back to the readable text certificate. Shared score URLs are intentionally omitted.
 
 ## Limitations
 
@@ -120,4 +120,4 @@ The share dialog builds a 1200×1200 PNG using local bundled fonts and Canvas. I
 - Browser automation targets Chromium at desktop/mobile viewport sizes; it does not replace physical iOS/Android checks or a manual screen-reader review.
 - Social previews include title/description metadata; a deployed absolute Open Graph image URL can be added after a hosting domain is selected.
 
-Font licenses are supplied in the installed Fontsource packages. All UI illustrations are code-native; there are no external image assets to fetch.
+Font licenses are supplied in the installed Fontsource packages and bundled under `public/licenses`. Meme image sources are documented in [ASSET_CREDITS.md](ASSET_CREDITS.md). Images and fonts are served with the app; there are no third-party asset requests at runtime.
