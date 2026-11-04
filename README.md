@@ -56,10 +56,12 @@ Build command: `npm run build`. Output directory: `dist`. No server functions or
 
 - **Cloudflare Pages:** connect the repository, use the build command and output directory above, and set Node to 22.12+ or 24 in the build environment.
 - **Vercel:** import the repository, select the Vite framework preset, and use the same build command/output. Select a supported Node version meeting the requirement.
-- **GitHub Pages:** run `npm ci && npm run build` in CI, upload `dist` with `actions/upload-pages-artifact`, and publish with `actions/deploy-pages`. Enable GitHub Actions as the Pages source. The relative asset base works at `/Hard-Hands-Calculator/`. No deployment workflow is enabled in this project; publishing is an explicit owner action.
+- **GitHub Pages:** run `npm run deploy:pages` from a checkout with Git push access. This builds the app and publishes only `dist` plus `.nojekyll` to the `gh-pages` branch, preserving its history. The relative asset base works at `/Hard-Hands-Calculator/`. GitHub Pages serves the root of `gh-pages`; if Pages is disabled, select **Settings → Pages → Deploy from a branch → gh-pages → /(root)** once.
 - **Any static host:** upload the contents of `dist` and serve `index.html`. Use HTTPS for the best native sharing support. Serve bundled assets alongside the HTML.
 
-The repository includes a validation-only CI workflow. Pushing source does **not** deploy the app.
+The repository includes a validation-only CI workflow. To publish a new version, commit and push your source, then run `npm run deploy:pages`. GitHub deploys pushes to the publishing branch. The publish script uses a temporary checkout and leaves the source checkout unchanged.
+
+Published site: https://de27vin.github.io/Hard-Hands-Calculator/
 
 ## Editing the quiz
 
