@@ -23,12 +23,9 @@ export function Landing({ onStart }: { onStart: () => void }) {
             <span className="mini-stripes" /> THE OFFICIAL UNOFFICIAL TOUGHNESS TEST
           </div>
           <h1 id="landing-title" tabIndex={-1}>
-            SOFT HANDS,
-            <br />
-            <span className="orange">BROTHER?</span>
-            <span className="moai" aria-label="stone face">
-              🗿
-            </span>
+            <span className="hero-line">You've got{' '}</span>
+            <span className="hero-line orange">soooft hands{' '}</span>
+            <span className="hero-line">sissy boy</span>
           </h1>
           <p className="hero-description">
             Your 9-to-5 office job doesn’t impress us.

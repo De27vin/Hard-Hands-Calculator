@@ -6,7 +6,7 @@ test('landing, complete quiz, edit answers, PNG export, and restart', async ({ p
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('/');
   await expect(page).toHaveTitle(/Hard Hands Calculator/);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('SOFT HANDS');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText("You've got soooft hands sissy boy");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: `test-results/home-${test.info().project.name}.png`,

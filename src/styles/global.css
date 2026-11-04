@@ -283,20 +283,15 @@ svg {
   );
 }
 .hero h1 {
-  font-size: clamp(76px, 7.8vw, 110px);
+  font-size: clamp(68px, 6.5vw, 92px);
   line-height: 0.87;
   letter-spacing: -1.2px;
   margin-top: 27px;
   position: relative;
   white-space: nowrap;
 }
-.moai {
-  font-size: 0.45em;
-  display: inline-block;
-  transform: rotate(11deg);
-  vertical-align: middle;
-  margin-left: 11px;
-  filter: grayscale(1);
+.hero-line {
+  display: block;
 }
 .hero-description {
   color: #b8b7ae;
@@ -1472,7 +1467,7 @@ svg {
     padding-block: 90px;
   }
   .hero h1 {
-    font-size: 118px;
+    font-size: 100px;
   }
   .art-scan {
     height: 390px;
@@ -1491,7 +1486,7 @@ svg {
     padding-block: 62px;
   }
   .hero h1 {
-    font-size: 8.7vw;
+    font-size: 7.5vw;
   }
   .hero .eyebrow {
     font-size: 9px;
@@ -1637,7 +1632,7 @@ svg {
     padding-bottom: 42px;
   }
   .hero h1 {
-    font-size: clamp(65px, 13.7vw, 100px);
+    font-size: clamp(54px, 12.8vw, 88px);
     letter-spacing: -0.7px;
     margin-top: 22px;
   }
@@ -2057,10 +2052,7 @@ svg {
     letter-spacing: 0.3px;
   }
   .hero h1 {
-    font-size: 64px;
-  }
-  .moai {
-    margin-left: 6px;
+    font-size: 54px;
   }
   .hero-meta {
     font-size: 7px;

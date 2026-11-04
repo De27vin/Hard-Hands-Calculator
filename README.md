@@ -1,6 +1,6 @@
 # Hard Hands Calculator
 
-**Soft Hands, Brother? 🗿**
+**You've got soooft hands sissy boy**
 
 A completely unscientific, fully client-side meme quiz. Answer 30 questions, get a deterministic hardness score from 0–1000, receive one of eight ridiculous ranks, and send an industrial-styled PNG certificate to the group chat.
 

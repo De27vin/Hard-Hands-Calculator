@@ -62,11 +62,12 @@ export async function createShareCard(score: number, rank: Rank): Promise<Blob> 
   ctx.font = 'bold 27px monospace';
   ctx.fillText('HARD HANDS CALCULATOR', 600, 105);
   ctx.fillStyle = '#f4f1e8';
-  ctx.font = '800 94px "Barlow Condensed", Impact, sans-serif';
-  ctx.fillText('SOFT HANDS, BROTHER?', 600, 230);
+  ctx.font = '800 82px "Barlow Condensed", Impact, sans-serif';
+  ctx.fillText("You've got soooft hands", 600, 200);
+  ctx.fillText('sissy boy', 600, 278);
   ctx.font = '22px monospace';
   ctx.fillStyle = '#aca99f';
-  ctx.fillText('OFFICIAL UNOFFICIAL HARDNESS CERTIFICATE', 600, 289);
+  ctx.fillText('OFFICIAL UNOFFICIAL HARDNESS CERTIFICATE', 600, 329);
   ctx.fillStyle = rank.color;
   ctx.font = '800 340px "Barlow Condensed", Impact, sans-serif';
   ctx.fillText(String(score).padStart(3, '0'), 600, 604);
@@ -118,7 +119,7 @@ export async function shareCard(
     try {
       await navigator.share({
         files: [file],
-        title: 'Soft Hands, Brother?',
+        title: "You've got soooft hands sissy boy",
         text: `I scored ${score}/1000: ${rank.name}. ${rank.tagline} Your turn.`,
       });
       return 'shared';
